@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import { RenderProps, useDayzed } from 'dayzed';
-import ArrowKeysReact from 'arrow-keys-react';
 import { Month_Names_Short, Weekday_Names_Short } from './utils/calanderUtils';
 import {
   Flex,
@@ -20,6 +19,7 @@ import {
   PropsConfigs,
 } from './utils/commonTypes';
 import { format } from 'date-fns';
+import {ArrowKeysReact} from "./utils/reactKeysArrow";
 
 interface RangeCalendarPanelProps {
   configs: DatepickerConfigs;
@@ -53,7 +53,7 @@ const RangeCalendarPanel: React.FC<RangeCalendarPanelProps> = ({
     });
   };
 
-  ArrowKeysReact.config({
+  const arrowKeysReact = new ArrowKeysReact({
     left: () => {
       getKeyOffset(-1);
     },
@@ -66,7 +66,7 @@ const RangeCalendarPanel: React.FC<RangeCalendarPanelProps> = ({
     down: () => {
       getKeyOffset(7);
     },
-  });
+  })
 
   // Calendar level
   const onMouseLeave = () => {
@@ -101,7 +101,7 @@ const RangeCalendarPanel: React.FC<RangeCalendarPanelProps> = ({
   if (!(calendars.length > 0)) return null;
 
   return (
-    <Flex {...ArrowKeysReact.events} onMouseLeave={onMouseLeave}>
+    <Flex {...arrowKeysReact.getEvents()} onMouseLeave={onMouseLeave}>
       <CalendarPanel
         renderProps={renderProps}
         configs={configs}
